@@ -13,7 +13,6 @@ docker compose --file compose.gpu.yml up --build
 docker compose --file compose.no-gpu.yml up --build
 ```
 > - Tested on macOS
-> - Tested on a Windows VDI
 
 ## Be patient ⏳
 

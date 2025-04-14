@@ -44,7 +44,7 @@ services:
       EOF
 
       curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
-      {"name": "qwen2.5:1.b"}
+      {"name": "qwen2.5:1.5b"}
       EOF
 
       curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
