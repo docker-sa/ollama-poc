@@ -1,0 +1,59 @@
+services:
+
+  ollama-service:
+    image: ollama/ollama:0.6.5
+    volumes:
+      - ollama-data:/root/.ollama
+    ports:
+      - 11435:11434
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  genai-ide:
+    build:
+      context: .
+      dockerfile: ide.Dockerfile
+      args:
+        - NODE_MAJOR=${NODE_MAJOR}
+        - USER_NAME=${USER_NAME}  
+    ports:
+      - 3500:3000
+    environment:
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
+    volumes:
+      - ./workspace:/home/workspace:cached
+    init: true
+    restart: unless-stopped
+    depends_on:
+      download-local-llm:
+        condition: service_completed_successfully
+
+  download-local-llm:
+    image: curlimages/curl:8.12.1
+    environment:
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
+      - LLM_CHAT=${LLM_CHAT}
+    entrypoint: |
+      sh -c '
+      curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
+      {"name": "qwen2.5:3b"}
+      EOF
+
+      curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
+      {"name": "qwen2.5:1.b"}
+      EOF
+
+      curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
+      {"name": "qwen2.5:0.5b"}
+      EOF            
+      '
+    depends_on:
+      ollama-service:
+        condition: service_started
+
+volumes:
+  ollama-data:

@@ -1,0 +1,4 @@
+node_modules
+workspace/.cache
+workspace/.npm
+workspace/.openvscode-server

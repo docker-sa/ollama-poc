@@ -1,0 +1,14 @@
+{
+  "name": "play-with-langchain",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "langchain": "^0.3.12",
+    "prompts": "^2.4.2",
+    "@langchain/ollama": "^0.1.4",
+    "dotenv": "^16.4.7"
+  }
+}
