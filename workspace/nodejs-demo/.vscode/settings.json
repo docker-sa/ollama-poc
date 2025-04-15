@@ -1,6 +1,6 @@
 {
     "workbench.iconTheme": "vs-seti",
-    "workbench.colorTheme": "Default Light Modern",
+    "workbench.colorTheme": "Default Light+",
     "editor.fontSize": 16,
     "terminal.integrated.fontSize": 16,
     "editor.insertSpaces": true,

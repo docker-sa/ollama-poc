@@ -35,15 +35,7 @@ services:
       sh -c '
       curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
       {"name": "qwen2.5:3b"}
-      EOF
-
-      curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
-      {"name": "qwen2.5:1.5b"}
-      EOF
-
-      curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
-      {"name": "qwen2.5:0.5b"}
-      EOF            
+      EOF      
       '
     depends_on:
       ollama-service:

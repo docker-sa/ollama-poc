@@ -6,13 +6,7 @@ services:
       - ollama-data:/root/.ollama
     ports:
       - 11435:11434
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+
   genai-ide:
     build:
       context: .
@@ -32,16 +26,24 @@ services:
       download-local-llm:
         condition: service_completed_successfully
 
+
   download-local-llm:
     image: curlimages/curl:8.6.0
     environment:
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
-      - LLM_CHAT=${LLM_CHAT}
     entrypoint: |
       sh -c '
       curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
       {"name": "qwen2.5:3b"}
-      EOF       
+      EOF
+
+      curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
+      {"name": "qwen2.5:1.5b"}
+      EOF
+
+      curl "${OLLAMA_BASE_URL}/api/pull" -d @- << EOF
+      {"name": "qwen2.5:0.5b"}
+      EOF            
       '
     depends_on:
       ollama-service:
